@@ -1,7 +1,7 @@
 import type { Card } from '@/domain/card'
 import { ref, computed } from 'vue'
 
-const cards = ref<Card[]>([])
+export const cards = ref<Card[]>([])
 
 const backlog = computed(() => cards.value.filter(card => card.status === 'backlog'))
 const doing = computed(() => cards.value.filter(card => card.status === 'doing'))
