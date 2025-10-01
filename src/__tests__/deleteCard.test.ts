@@ -1,6 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { cards } from '@/composables/boardState'
-import { Card, Status } from '@/domain/card'
 import { useDeleteCard } from '@/composables/useCardDelete'
 
 
