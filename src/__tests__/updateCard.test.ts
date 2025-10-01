@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach} from 'vitest'
 import { useCardUpdate } from '@/composables/useCardUpdate'
 import { cards } from '@/composables/boardState'
-import type { Card } from '@/domain/card'
+import type { Card, Status } from '@/domain/card'
 
 
 describe('useCardUpdate', () => {
@@ -10,11 +10,8 @@ describe('useCardUpdate', () => {
     })
 
     it('should find a card element in the state array and update it', () => {
-
-        const idToSearch = crypto.randomUUID()
-
         const card: Card = {
-            id: idToSearch,
+            id: crypto.randomUUID(),
             title: 'old title',
             description: 'old description',
             status: 'backlog'
@@ -28,11 +25,11 @@ describe('useCardUpdate', () => {
 
         const newTitle = 'new title'
         const newDescription = 'new description'
-        const newStatus = 'doing'
+        const newStatus: Status = 'doing'
 
-        update(idToSearch, newTitle, newDescription, newStatus)
-        expect(cards.value[0]!.title).toBe('new title')
-        expect(cards.value[0]!.description).toBe('new description')
-        expect(cards.value[0]!.status).toBe('doing')
+        update(card.id, newTitle, newDescription, newStatus)
+        expect(cards.value[0]!.title).toBe(newTitle)
+        expect(cards.value[0]!.description).toBe(newDescription)
+        expect(cards.value[0]!.status).toBe(newStatus)
     })
 })
