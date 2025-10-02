@@ -27,6 +27,8 @@ function onDrop(e: DragEvent) {
 
 <template>
     <v-card
+    rounded="x1"
+    :class="['column-card', status]"
     @dragover="onDragOver"
     @drop="onDrop"   
     >
@@ -42,3 +44,28 @@ function onDrop(e: DragEvent) {
         </v-card-text>
     </v-card>
 </template>
+
+<style scoped>
+.column-card.backlog {
+    background-color: #f3f4f6;
+}
+
+.column-card.doing {
+  background-color: #e0e7ff;
+}
+
+.column-card.review {
+  background-color: #fef9c3;
+}
+
+.column-card.done {
+  background-color: #dcfce7;
+}
+
+.column-card {
+    min-height: 80vh;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 8px;
+}
+</style>
