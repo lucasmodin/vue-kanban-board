@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ColumnItem from './ColumnItem.vue'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import { useCreateCard, useDeleteCard, useCardUpdate, useMoveCard } from './composables'
 import { useBoardState } from './composables/boardState';
 import type { Card, Status } from './domain/card'
@@ -20,8 +20,19 @@ const editDialog = ref(false)
 const editTitle = ref('')
 const editDescription = ref('')
 
+const newTitleError = computed(() => newTitle.value.trim().length ? '' : 'Titel er påkrævet')
+const newDescLen   = computed(() => newDescription.value.trim().length)
+const newDescError = computed(() => newDescLen.value <= 200 ? '' : 'Maks 200 tegn')
+const canCreate    = computed(() => !newTitleError.value && !newDescError.value)
+
+const editTitleError = computed(() => editTitle.value.trim().length ? '' : 'Titel er påkrævet')
+const editDescLen    = computed(() => editDescription.value.trim().length)
+const editDescError  = computed(() => editDescLen.value <= 200 ? '' : 'Maks 200 tegn')
+const canEdit        = computed(() => !editTitleError.value && !editDescError.value)
+
+
 function onCreate() {
-  if(!newTitle.value.trim()) {
+  if(!canCreate.value) {
     return
   }
   create(newTitle.value, newDescription.value, defaultStatus)
@@ -45,9 +56,10 @@ function onUpdate(card: Card) {
 }
 
 function saveEdit() {
-  if (editCard.value) {
-    update(editCard.value.id, editTitle.value, editDescription.value)
-  }
+ if (!canEdit.value || !editCard.value) {
+  return
+ }
+  update(editCard.value.id, editTitle.value, editDescription.value)
   editDialog.value = false
 }
 
@@ -64,11 +76,27 @@ function saveEdit() {
         <v-card class="glass-card w-100" max-width="500">
           <v-card-title>Tilføj kort til board</v-card-title>
           <v-card-text>
-            <v-text-field variant="filled" v-model="newTitle" label="Titel" class="mb-3"/>
-            <v-textarea variant="filled" v-model="newDescription" label="Beskrivelse" class="mb-3"/>
+            <v-form>
+              <v-text-field 
+              variant="filled" 
+              v-model="newTitle" 
+              label="Titel" 
+              class="mb-3"
+              :error="!!newTitleError"
+              :error-messages="newTitleError ? [newTitleError] : []"
+              />
+              <v-textarea 
+              variant="filled" 
+              v-model="newDescription" 
+              label="Beskrivelse" 
+              class="mb-3"
+              :error="!!newDescError"
+              :error-messages="newDescError ? [newDescError] : []"
+              />
+            </v-form>
           </v-card-text>
           <v-card-actions>
-            <v-btn color="primary" block @click="onCreate">Tilføj til backlog</v-btn>
+            <v-btn :disabled="!canCreate" variant="flat" color="primary" block @click="onCreate">Tilføj til backlog</v-btn>
           </v-card-actions>
         </v-card>
       </v-container>
@@ -126,14 +154,28 @@ function saveEdit() {
 
   <v-dialog v-model="editDialog" max-width="500">
     <v-card>
-      <v-card-title>Rediger kort: {{ newTitle }}</v-card-title>
+      <v-card-title>Rediger kort: {{ editTitle }}</v-card-title>
       <v-card-text>
-        <v-text-field v-model="editTitle" label="Titel" class="mb-3"></v-text-field>
-        <v-textarea v-model="editDescription" label="Beskrivelse" class="mb-3"></v-textarea>
+        <v-form>
+          <v-text-field 
+          v-model="editTitle" 
+          label="Titel" 
+          class="mb-3"
+          :error="!!editTitleError"
+          :error-messages="editTitleError ? [editTitleError] : []"
+          />
+          <v-textarea 
+          v-model="editDescription" 
+          label="Beskrivelse" 
+          class="mb-3"
+          :error="!!editDescError"
+          :error-messages="editDescError ? [editDescError] : []"
+          />
+        </v-form>
       </v-card-text>
         <v-card-actions>
           <v-btn text @click="editDialog = false">Annuller</v-btn>
-          <v-btn color="primary" @click="saveEdit">Gem</v-btn>
+          <v-btn :disabled="!canEdit" color="primary" @click="saveEdit">Gem</v-btn>
         </v-card-actions>   
     </v-card>
   </v-dialog>
