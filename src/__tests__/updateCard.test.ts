@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach} from 'vitest'
 import { useCardUpdate } from '@/composables/useCardUpdate'
 import { cards } from '@/composables/boardState'
-import type { Card, Status } from '@/domain/card'
+import type { Card } from '@/domain/card'
 
 
 describe('useCardUpdate', () => {
@@ -25,11 +25,9 @@ describe('useCardUpdate', () => {
 
         const newTitle = 'new title'
         const newDescription = 'new description'
-        const newStatus: Status = 'doing'
 
-        update(card.id, newTitle, newDescription, newStatus)
+        update(card.id, newTitle, newDescription)
         expect(cards.value[0]!.title).toBe(newTitle)
         expect(cards.value[0]!.description).toBe(newDescription)
-        expect(cards.value[0]!.status).toBe(newStatus)
     })
 })

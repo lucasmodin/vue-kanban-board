@@ -3,7 +3,7 @@ import ColumnItem from './ColumnItem.vue'
 import { ref } from 'vue'
 import { useCreateCard, useDeleteCard, useCardUpdate, useMoveCard } from './composables'
 import { useBoardState } from './composables/boardState';
-import type { Status } from './domain/card'
+import type { Card, Status } from './domain/card'
 
 const defaultStatus: Status = 'backlog'
 
@@ -15,6 +15,11 @@ const { moveCard } = useMoveCard()
 
 const newTitle = ref('')
 const newDescription = ref('')
+
+const editCard = ref<(Card | null)> (null)
+const editDialog = ref(false)
+const editTitle = ref('')
+const editDescription = ref('')
 
 function onCreate() {
   if(!newTitle.value.trim()) {
@@ -29,12 +34,22 @@ function onDelete(id: string) {
   remove(id)
 }
 
-function onUpdate(id: string, title: string, description: string, status: Status) {
-  update(id, title, description, status)
-}
-
 function onMove(id: string, status: Status) {
   moveCard(id, status)
+}
+
+function onUpdate(card: Card) {
+  editCard.value = card
+  editTitle.value = card.title
+  editDescription.value = card.description
+  editDialog.value = true
+}
+
+function saveEdit() {
+  if (editCard.value) {
+    update(editCard.value.id, editTitle.value, editDescription.value)
+  }
+  editDialog.value = false
 }
 
 </script>
@@ -102,6 +117,22 @@ function onMove(id: string, status: Status) {
       </v-row>
     </v-main>
   </v-app>
+
+  <v-dialog v-model="editDialog" max-width="500">
+    <v-card>
+      <v-card-title>Rediger kort: {{ newTitle }}</v-card-title>
+      <v-card-text>
+        <v-text-field v-model="editTitle" label="Titel" ></v-text-field>
+        <v-textarea v-model="editDescription" label="Beskrivelse"></v-textarea>
+        <v-card-actions>
+          <v-btn text @click="editDialog = false">Annuller</v-btn>
+          <v-btn color="primary" @click="saveEdit">Gem</v-btn>
+        </v-card-actions>
+      </v-card-text>
+    </v-card>
+  </v-dialog>
+
+
 </template>
 
 <style scoped></style>
