@@ -43,17 +43,4 @@ Start server (udvikling)
 npm run dev
 ```
 
-src/
- ├─ composables/
- │   ├─ boardState.ts         # state for board
- │   ├─ useCreateCard.ts      # tilføj kort
- │   ├─ useDeleteCard.ts      # slet kort
- │   ├─ useCardUpdate.ts      # opdater kort
- │   └─ useMoveCard.ts        # flyt kort mellem kolonner
- ├─ domain/
- │   └─ card.ts               # typer
- ├─ App.vue                   # root
- ├─ CardItem.vue              # kort komponent
- ├─ ColumnItem.vue            # kolonne komponent
- └─ main.ts                   
-
+<pre> ```text src/ ├─ composables/ │ ├─ boardState.ts # state for board │ ├─ useCreateCard.ts # tilføj kort │ ├─ useDeleteCard.ts # slet kort │ ├─ useCardUpdate.ts # opdater kort │ └─ useMoveCard.ts # flyt kort mellem kolonner ├─ domain/ │ └─ card.ts # typer ├─ App.vue # root ├─ CardItem.vue # kort komponent ├─ ColumnItem.vue # kolonne komponent └─ main.ts # entry ``` </pre>
