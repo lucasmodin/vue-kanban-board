@@ -17,7 +17,7 @@ Brugeren kan tilføje, redigere, flytte og slette kort mellem forskellige kolonn
 ## Teknologier
 - [Vue 3](https://vuejs.org/) (Composition API)  
 - [TypeScript](https://www.typescriptlang.org/) – brugt mest med type inference 
-- [Vuetify 3](https://next.vuetifyjs.com/) (Material Design komponenter - herunder Carditem og column)  
+- [Vuetify 3](https://next.vuetifyjs.com/) 
 - [Vitest] - til at teste funktionalitet 
 
 ---
