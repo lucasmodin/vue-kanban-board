@@ -10,7 +10,7 @@ Brugeren kan tilføje, redigere, flytte og slette kort mellem forskellige kolonn
 - Validering (titel påkrævet, maks 200 tegn i beskrivelse)  
 - Rediger eksisterende kort via dialog  
 - Slet kort  
-- Træk-og-slip for at flytte kort mellem kolonner  
+- Træk og slip for at flytte kort mellem kolonner  
 
 ---
 
@@ -33,6 +33,7 @@ Installer dependencies:
 ```bash
 npm install
 ```
+
 og
 ```bash
 npm i vuetify @mdi/font
@@ -43,4 +44,3 @@ Start server (udvikling)
 npm run dev
 ```
 
-<pre> ```text src/ ├─ composables/ │ ├─ boardState.ts # state for board │ ├─ useCreateCard.ts # tilføj kort │ ├─ useDeleteCard.ts # slet kort │ ├─ useCardUpdate.ts # opdater kort │ └─ useMoveCard.ts # flyt kort mellem kolonner ├─ domain/ │ └─ card.ts # typer ├─ App.vue # root ├─ CardItem.vue # kort komponent ├─ ColumnItem.vue # kolonne komponent └─ main.ts # entry ``` </pre>
